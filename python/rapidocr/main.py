@@ -36,9 +36,9 @@ class RapidOCR:
         self, config_path: Optional[str] = None, params: Optional[Dict[str, Any]] = None
     ):
         cfg = self.load_config(config_path, params)
+        self.logger = Logger(logger_name=__name__).get_log()
         self.initialize(cfg)
 
-        self.logger = Logger(logger_name=__name__).get_log()
 
     def load_config(
         self, config_path: Optional[str], params: Optional[Dict[str, Any]]
