@@ -56,17 +56,21 @@ class RapidOCR:
         self.text_score = cfg.Global.text_score
         self.min_height = cfg.Global.min_height
         self.width_height_ratio = cfg.Global.width_height_ratio
+        self.logger.warning(f"Using config: {cfg}")
 
         self.use_det = cfg.Global.use_det
         cfg.Det.engine_cfg = cfg.EngineConfig[cfg.Det.engine_type.value]
+        self.logger.warning(f"Using Detector config: {cfg.Det}")
         self.text_det = TextDetector(cfg.Det)
 
         self.use_cls = cfg.Global.use_cls
         cfg.Cls.engine_cfg = cfg.EngineConfig[cfg.Cls.engine_type.value]
+        self.logger.warning(f"Using Classifier config: {cfg.Cls}")
         self.text_cls = TextClassifier(cfg.Cls)
 
         self.use_rec = cfg.Global.use_rec
         cfg.Rec.engine_cfg = cfg.EngineConfig[cfg.Rec.engine_type.value]
+        self.logger.warning(f"Using Recognizer config: {cfg.Rec}")
         self.text_rec = TextRecognizer(cfg.Rec)
 
         self.load_img = LoadImage()

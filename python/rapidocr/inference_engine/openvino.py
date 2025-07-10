@@ -18,6 +18,8 @@ class OpenVINOInferSession(InferSession):
     def __init__(self, cfg: DictConfig):
         super().__init__(cfg)
         self.logger = Logger(logger_name=__name__).get_log()
+        
+        self.logger.warning(f"Using OpenVINO config: {cfg}")
 
         core = Core()
 
