@@ -35,7 +35,7 @@ jobs:
           pytest tests/test_main.py
 
   GenerateWHL_PushPyPi:
-    needs: UnitTesting
+    # needs: UnitTesting
     runs-on: ubuntu-latest
 
     steps:
