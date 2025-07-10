@@ -54,6 +54,7 @@ class OpenVINOInferSession(InferSession):
         if infer_num_threads != -1 and 1 <= infer_num_threads <= cpu_nums and openvino_config.get("INFERENCE_NUM_THREADS", None) is None:
             openvino_config["INFERENCE_NUM_THREADS"] = str(infer_num_threads)
         
+        self.logger.warning(f"Applied OpenVINO config: {openvino_config}")
         model_onnx = core.read_model(model_path)
         compile_model = core.compile_model(model=model_onnx, device_name="CPU", config=openvino_config)
         self.session = compile_model.create_infer_request()
