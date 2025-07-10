@@ -81,7 +81,7 @@ class OpenVINOInferSession(InferSession):
         core.set_property("CPU", config)
 
         model_onnx = core.read_model(model_path)
-        compile_model = core.compile_model(model=model_onnx, device_name="CPU")
+        compile_model = core.compile_model(model=model_onnx, device_name="CPU", config=config)
         self.session = compile_model.create_infer_request()
 
     def __call__(self, input_content: np.ndarray) -> np.ndarray:
