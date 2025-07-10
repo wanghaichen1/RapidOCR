@@ -46,9 +46,37 @@ class OpenVINOInferSession(InferSession):
         self._verify_model(model_path)
 
         cpu_nums = os.cpu_count()
+        config = {}
         infer_num_threads = cfg.get("inference_num_threads", -1)
         if infer_num_threads != -1 and 1 <= infer_num_threads <= cpu_nums:
-            core.set_property("CPU", {"INFERENCE_NUM_THREADS": str(infer_num_threads)})
+            config["INFERENCE_NUM_THREADS"] = str(infer_num_threads)
+            
+        performance_hint = cfg.get("performance_hint", None)
+        if performance_hint is not None:
+            config["PERFORMANCE_HINT"] = str(performance_hint)
+            
+        performance_num_requests = cfg.get("performance_num_requests", -1)
+        if performance_num_requests != -1:
+            config["PERFORMANCE_HINT_NUM_REQUESTS"] = str(performance_num_requests)
+            
+        enable_cpu_pinning = cfg.get("enable_cpu_pinning", None)
+        if enable_cpu_pinning is not None:
+            config["ENABLE_CPU_PINNING"] = str(enable_cpu_pinning)
+            
+        num_streams = cfg.get("num_streams", -1)
+        if num_streams != -1:
+            config["NUM_STREAMS"] = str(num_streams)
+            
+        enable_hyper_threading = cfg.get("enable_hyper_threading", None)
+        if enable_hyper_threading is not None:
+            config["ENABLE_HYPER_THREADING"] = str(enable_hyper_threading)
+        
+        scheduling_core_type = cfg.get("scheduling_core_type", None)
+        if scheduling_core_type is not None:
+            config["SCHEDULING_CORE_TYPE"] = str(scheduling_core_type)
+        
+        self.logger.info(f"Using OpenVINO config: {config}")
+        core.set_property("CPU", config)
 
         model_onnx = core.read_model(model_path)
         compile_model = core.compile_model(model=model_onnx, device_name="CPU")
