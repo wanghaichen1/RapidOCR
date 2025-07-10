@@ -47,6 +47,7 @@ class OpenVINOInferSession(InferSession):
 
         cpu_nums = os.cpu_count()
         config = {}
+        self.logger.info(f"Parsing OpenVINO config: {cfg}")
         infer_num_threads = cfg.get("inference_num_threads", -1)
         if infer_num_threads != -1 and 1 <= infer_num_threads <= cpu_nums:
             config["INFERENCE_NUM_THREADS"] = str(infer_num_threads)
